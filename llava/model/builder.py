@@ -68,6 +68,7 @@ def load_pretrained_model(model_path, model_base, model_name, load_8bit=False, l
                 from huggingface_hub import hf_hub_download
                 def load_from_hf(repo_id, filename, subfolder=None):
                     if os.environ['TOKEN']:
+                        print("using hf token from environ")
                         cache_file = hf_hub_download(
                             repo_id=repo_id,
                             filename=filename,
