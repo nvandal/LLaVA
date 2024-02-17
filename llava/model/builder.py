@@ -67,10 +67,17 @@ def load_pretrained_model(model_path, model_base, model_name, load_8bit=False, l
                 # this is probably from HF Hub
                 from huggingface_hub import hf_hub_download
                 def load_from_hf(repo_id, filename, subfolder=None):
-                    cache_file = hf_hub_download(
-                        repo_id=repo_id,
-                        filename=filename,
-                        subfolder=subfolder)
+                    if os.environ['TOKEN']:
+                        cache_file = hf_hub_download(
+                            repo_id=repo_id,
+                            filename=filename,
+                            subfolder=subfolder,
+                            use_auth_token=os.environ['TOKEN'])
+                    else:
+                        cache_file = hf_hub_download(
+                            repo_id=repo_id,
+                            filename=filename,
+                            subfolder=subfolder)
                     return torch.load(cache_file, map_location='cpu')
                 non_lora_trainables = load_from_hf(model_path, 'non_lora_trainables.bin')
             non_lora_trainables = {(k[11:] if k.startswith('base_model.') else k): v for k, v in non_lora_trainables.items()}
