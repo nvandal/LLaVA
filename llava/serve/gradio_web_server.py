@@ -180,6 +180,8 @@ def http_bot(state, model_selector, temperature, top_p, max_new_tokens, request:
                     template_name = "v1_mmtag"
                 elif 'plain' in model_name.lower() and 'finetune' not in model_name.lower():
                     template_name = "v1_mmtag"
+                elif 'ortho' in model_name.lower() or 'med' in model_name.lower():
+                    template_name = "llava_ortho_v1"
                 else:
                     template_name = "llava_v1"
             elif "mpt" in model_name.lower():
@@ -314,7 +316,7 @@ block_css = """
 
 def build_demo(embed_mode, cur_dir=None, concurrency_count=10):
     textbox = gr.Textbox(show_label=False, placeholder="Enter text and press ENTER", container=False)
-    with gr.Blocks(title="LLaVA", theme=gr.themes.Default(), css=block_css) as demo:
+    with gr.Blocks(title="LLaVA-Ortho", theme=gr.themes.Default(), css=block_css, analytics_enabled=False) as demo:
         state = gr.State()
 
         if not embed_mode:

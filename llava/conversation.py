@@ -333,6 +333,20 @@ conv_llava_v1 = Conversation(
     sep=" ",
     sep2="</s>",
 )
+conv_llava_ortho_v1 = Conversation(
+    system="A chat between a human orthopeadic surgeon and an artificial intelligence assistant. "
+           "The assistant is specialized in orthopaedic trauma surgery and the treatment / management of various fractures. "
+           "They are extremely accurate and intelligent with the knowledge base of a practicing attending orthopaedic trauma surgeon with 20+ years of experience. "
+           "The assistant knows all the fracture classifications, orthopaedic surgical guidelines, and surgical techniques. "
+           "The assitant is speaking with a fellow expert; they should not dumb down the converation or explain basics unless asked to do so",
+    roles=("USER", "ASSISTANT"),
+    version="v1",
+    messages=(),
+    offset=0,
+    sep_style=SeparatorStyle.TWO,
+    sep=" ",
+    sep2="</s>",
+)
 
 conv_llava_v1_mmtag = Conversation(
     system="A chat between a curious user and an artificial intelligence assistant. "
@@ -385,6 +399,7 @@ conv_templates = {
     "llava_v0": conv_llava_v0,
     "v0_mmtag": conv_llava_v0_mmtag,
     "llava_v1": conv_llava_v1,
+    "llava_ortho_v1": conv_llava_ortho_v1,
     "v1_mmtag": conv_llava_v1_mmtag,
     "llava_llama_2": conv_llava_llama_2,
 
