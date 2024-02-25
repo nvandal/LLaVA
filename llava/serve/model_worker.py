@@ -46,7 +46,7 @@ class ModelWorker:
     def __init__(self, controller_addr, worker_addr,
                  worker_id, no_register,
                  model_path, model_base, model_name,
-                 load_8bit, load_4bit, device, use_flash_attn=False):
+                 load_8bit, load_4bit, device, use_flash_attn=False, revision='main'):
         self.controller_addr = controller_addr
         self.worker_addr = worker_addr
         self.worker_id = worker_id
@@ -62,11 +62,11 @@ class ModelWorker:
             self.model_name = model_name
 
         self.device = device
-        logger.info(f"Loading the model {self.model_name} on worker {worker_id} ...")
+        self.revision = revision
+        logger.info(f"Loading the model {self.model_name} {self.revision} on worker {worker_id} ...")
         token = os.environ.get('TOKEN',None)
-        revision = os.environ.get('revision','main')
         self.tokenizer, self.model, self.image_processor, self.context_len = load_pretrained_model(
-            model_path, model_base, self.model_name, load_8bit, load_4bit, device=self.device, use_flash_attn=use_flash_attn, token=token, revision=revision)
+            model_path, model_base, self.model_name, load_8bit, load_4bit, device=self.device, use_flash_attn=use_flash_attn, token=token, revision=self.revision)
         self.is_multimodal = 'llava' in self.model_name.lower()
 
         if not no_register:
@@ -261,6 +261,7 @@ if __name__ == "__main__":
     parser.add_argument("--controller-address", type=str,
         default="http://localhost:21001")
     parser.add_argument("--model-path", type=str, default="facebook/opt-350m")
+    parser.add_argument("--revision", type=str, default="main")
     parser.add_argument("--model-base", type=str, default=None)
     parser.add_argument("--model-name", type=str)
     parser.add_argument("--device", type=str, default="cuda")
@@ -287,5 +288,6 @@ if __name__ == "__main__":
                          args.load_8bit,
                          args.load_4bit,
                          args.device,
-                         use_flash_attn=args.use_flash_attn)
+                         use_flash_attn=args.use_flash_attn,
+                         revision=args.revision)
     uvicorn.run(app, host=args.host, port=args.port, log_level="info")
