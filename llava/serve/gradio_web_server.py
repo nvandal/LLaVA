@@ -341,7 +341,12 @@ def build_demo(embed_mode, cur_dir=None, concurrency_count=10):
                 if cur_dir is None:
                     cur_dir = os.path.dirname(os.path.abspath(__file__))
                 gr.Examples(examples=[
-                    [f"{cur_dir}/examples/distal_radius.jpg", "What is this xray of"],
+                    [f"{cur_dir}/examples/distal_radius.jpg", "Describe this xray like an orthopaedic surgeon."],
+                    [f"{cur_dir}/examples/distal_radius.jpg", "expert system: distal radius:1.00, fracture:0.84, frontal(PA/AP) view:0.95, fragment shortening:0.91\n\nDescribe this xray like an orthopaedic surgeon."],
+                    [f"{cur_dir}/examples/lateral_wrist.jpg", "Describe this xray like an orthopaedic surgeon."],
+                    [f"{cur_dir}/examples/lateral_wrist.jpg", "expert system: distal radius:1.00, dorsal displacement:0.89, fracture:1.00, comminution:0.93, oblique view:0.99, fragment shortening:0.96\n\nDescribe this xray like an orthopaedic surgeon."],
+                    [f"{cur_dir}/examples/carpus.jpg", "Describe this xray like an orthopaedic surgeon."],
+                    [f"{cur_dir}/examples/carpus.jpg", "expert system: wrist:1.00, dorsal displacement:0.87, fracture:1.00, fragment shortening:0.83\n\nDescribe this xray like an orthopaedic surgeon."],
                 ], inputs=[imagebox, textbox])
 
                 with gr.Accordion("Parameters", open=False) as parameter_row:
